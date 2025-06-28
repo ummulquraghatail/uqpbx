@@ -1,22 +1,22 @@
-
+# Base Image
 FROM ubuntu:20.04
 
+# Disable interactive prompts
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y \
-    apache2 \
-    php \
-    php-mysql \
-    php-pear \
-    mariadb-server \
-    asterisk \
-    wget \
-    curl \
-    git \
-    unzip \
-    nano \
-    sudo
+# Update system and install Apache
+RUN apt update && \
+    apt install -y apache2 && \
+    apt clean
 
-EXPOSE 80 5060/udp 5060/tcp
+# Set ServerName to suppress warning
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
-CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
+# Add a basic index.html to verify the server is running
+RUN echo "<h1>✅ Apache is working!</h1>" > /var/www/html/index.html
+
+# Expose port 80
+EXPOSE 80
+
+# Start Apache in the foreground
+CMD ["apachectl", "-D", "FOREGROUND"]
