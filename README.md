@@ -1,2 +1,3 @@
-# uqpbx
-FreePBX on Render
+# FreePBX Render Deployment Template
+
+Deploy FreePBX using Docker on Render.com.
